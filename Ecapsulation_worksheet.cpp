@@ -82,6 +82,14 @@ class Player : public Character {
 public:
     Player(const std::string& playerName, int playerHealth, int characterStrength)
         :Character(playerName, playerHealth, characterStrength) {}
+
+    void heal(int amount) {
+        if (getHealth() > 0) {
+            setHealth(getHealth() + amount);
+            std::cout << "Player healed by " << amount << " points.\n";
+        }
+    }
+
 };
 
 class Enemy : public Character {
@@ -177,15 +185,9 @@ public:
 
     void randomlyHealPlayer() {
         int healAmount = std::rand() % 50 + 1; // heal between 1 and 50 point
-        healPlayer(healAmount);
+        player.heal(healAmount);
     }
 
-    void healPlayer(int amount) {
-        if (player.getHealth() > 0) {
-            player.setHealth(player.getHealth() + amount);
-            std::cout << "Player healed by " << amount << " points.\n";
-        }
-    }
 };
 
 // Main Function
