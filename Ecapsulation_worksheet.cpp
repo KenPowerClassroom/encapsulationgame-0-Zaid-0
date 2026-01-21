@@ -155,16 +155,24 @@ public:
         }
     }
 
-
-    Weapon* equipRandomWeapon(Character& character) {
-
+    //to be used in equipRandomWeapon - DRY Principle
+    Weapon* getRandomWeapon() {
         if (weapons.empty()) {
             return nullptr;
         }
         int randomIndex = std::rand() % weapons.size();
-        Weapon* selectedWeapon = &weapons[randomIndex];
-        character.equipWeapon(selectedWeapon) ;
-        return selectedWeapon;
+        return &weapons[randomIndex];
+    }
+
+    Weapon* equipRandomWeapon(Character& character) {
+
+        Weapon* weapon = getRandomWeapon();
+        if (weapons.empty()) {
+            return nullptr;
+        }
+        character.equipWeapon(weapon);
+
+        return weapon;
     }
 
     void randomlyHealPlayer() {
