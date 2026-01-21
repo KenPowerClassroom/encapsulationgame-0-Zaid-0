@@ -67,15 +67,20 @@ public:
     }
 
     void attack(Character& target) {
-        std::cout << name << " attacks " << target.getName() << " with " << currentWeapon->getName()
-            << "\n";
-        target.takeDamage(getAttackDamage());
         //safe
         if (currentWeapon == nullptr) {
             return;
         }
+
+        std::cout << name << " attacks " << target.getName() << " with " << currentWeapon->getName()
+            << "\n";
+        target.takeDamage(getAttackDamage());
+   
     }
 
+    bool hasWeapon() const {
+        return currentWeapon != nullptr;
+    }
 };
 
 class Player : public Character {
@@ -120,10 +125,8 @@ public:
 
         // Player and enemy health checks
         while (player.getHealth() > 0 && enemy.getHealth() > 0) {
-            Weapon* playerWeapon = player.getWeapon();
-            Weapon * enemyWeapon = enemy.getWeapon();
 
-            if (playerWeapon != nullptr && enemyWeapon != nullptr) {
+            if (player.hasWeapon() && enemy.hasWeapon()) {
                 player.attack(enemy);
                 std::cout << enemy.getName() << " health: " << enemy.getHealth() << "\n";
 
