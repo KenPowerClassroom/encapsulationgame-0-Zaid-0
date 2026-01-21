@@ -59,6 +59,23 @@ public:
         std::cout << name << "take damage " << damage << "\n";
     }
 
+    int getAttackDamage() const {
+        if (currentWeapon == nullptr) {
+            return 0;
+        }
+        return currentWeapon->getDamage() * strength;
+    }
+
+    void attack(Character& target) {
+        std::cout << name << " attacks " << target.getName() << " with " << currentWeapon->getName()
+            << "\n";
+        target.takeDamage(getAttackDamage());
+        //safe
+        if (currentWeapon == nullptr) {
+            return;
+        }
+    }
+
 };
 
 class Player : public Character {
@@ -99,12 +116,10 @@ public:
             Weapon * enemyWeapon = enemy.getWeapon();
 
             if (playerWeapon != nullptr && enemyWeapon != nullptr) {
-                std::cout << player.getName() << " attacks " << enemy.getName() << " with " << playerWeapon->getName() << "\n";
-				enemy.takeDamage(playerWeapon->getDamage() * player.getStrength());
+                player.attack(enemy);
                 std::cout << enemy.getName() << " health: " << enemy.getHealth() << "\n";
 
-                std::cout << enemy.getName() << " attacks " << player.getName() << " with " << enemyWeapon->getName() << "\n";
-                player.takeDamage(enemyWeapon->getDamage() * enemy.getStrength());
+                enemy.attack(player);
                 std::cout << player.getName() << " health: " << player.getHealth() << "\n";
             }
             else {
